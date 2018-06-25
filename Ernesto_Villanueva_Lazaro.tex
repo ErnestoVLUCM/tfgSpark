@@ -35,30 +35,32 @@
 
 
  % el titulo con title page y cambiar include por input
-\include{capitulos/00portada}
+\input{capitulos/00portada}
 \thispagestyle{empty}
 \renewcommand{\contentsname}{Índice}
 
 \tableofcontents
 \thispagestyle{empty}
 
-\include{capitulos/02Resumen}
-\include{capitulos/03Palabras_clave}
-\include{capitulos/04Abstract}
-\include{capitulos/05keywords}
+\fancyhead[E]{}
+\fancyfoot[E]{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
 
+\input{capitulos/02Resumen}
+\input{capitulos/04Abstract}
 
 
 \fancyfoot[EC]{\thepage}
 \renewcommand{\headrulewidth}{0pt}
 \renewcommand{\footrulewidth}{0pt}
-\include{capitulos/cap1_spark}
-\include{capitulos/cap2_historia}
-\include{capitulos/cap3_componentes}
-\include{capitulos/cap4_rdd}
-\include{capitulos/cap5_arquitectura}
-\include{capitulos/cap6_funcionamiento}
-\include{capitulos/cap7_conclusiones}
+ \input{capitulos/cap1_spark}
+\input{capitulos/cap2_historia}
+\input{capitulos/cap3_componentes}
+\input{capitulos/cap4_rdd}
+\input{capitulos/cap5_arquitectura}
+\input{capitulos/cap6_funcionamiento}
+\input{capitulos/cap7_conclusiones}
 
 \addcontentsline{toc}{chapter}{Referencias}
 \bibliographystyle{unsrt} %abbry unsrt
