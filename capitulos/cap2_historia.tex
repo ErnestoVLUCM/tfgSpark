@@ -1,0 +1,12 @@
+\chapter{Breve Historia sobre Spark}
+
+Spark surge, en primera instancia,  en la universidad UC Berkeley en 2009 como proyecto de investigación doctoral de Matei Zaharia dirigido por Ion Stoica. Por aquel entonces, Hadoop MapReduce era el motor de programación paralela dominante. Un año más tarde se publicó un artículo titulado “Spark: Cluster Computing with Working Sets”, por Matei Zaharia, Mosharaf Chowdhury, Michael J. Franklin, Scott Shenker e Ion Stoica. \cite{learnSpark}\\
+
+El objetivo perseguido con la creación de Spark era suplir aquellos casos de uso en los que MapReduce resultaba ineficiente. Para ello, trabajaron con usuarios de Hadoop MapReduce con el fin de detectar los puntos fuertes y débiles de esta tecnología, llegando a la conclusión de que debían mejorar los procesos iterativos, aquellos en los que se requieren múltiples pases para procesar los datos y aquellos procesos que requieren una gran cantidad de consultas.\\
+
+Para solventar estos problemas, Spark se basó en la programación funcional, diseñando de este modo una API sobre un nuevo motor, capaz de realizar cálculos en memoria sobre los datos.
+Tras esto, su siguiente objetivo fue crear un conjunto de bibliotecas a través de las cuales se pudieran escribir aplicaciones big data con diferentes enfoques usando el mismo framework. Así nacieron MLib, GraphX y Spark Streaming.\\
+
+En 2013 el proyecto se donó a la Apache Software Foundation. En ese mismo año, Matei Zaharia, Ion Stoica, Ali Godsi, Reynold Xin, Patrick Wendell, Andy Konwiski y Scot Shenker fundaron Databriks, empresa con la que fortalecer el proyecto. Al año siguiente, Databricks obtuvo un nuevo récord mundial en la ordenación a gran escala usando Spark. Actualmente, Databriks desarrolla una plataforma basada en web para trabajar con Spark. Además, organiza la conferencia más grande sobre Spark: Spark Summit.\\
+
+Desde su creación, Spark no ha dejado de ir sumando nuevas APIs y librerías con las que ampliar o mejorar su funcionalidad, como las APIs estructuradas o GrapFrame.
