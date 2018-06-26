@@ -10,6 +10,19 @@ M.~Mac{\ifmmode\acute{\imath}\else\'{\i}\fi}as,
 \newblock {\em {Introducci{\ifmmode\acute{o}\else\'{o}\fi}n a Apache Spark}}.
 \newblock Oberta UOC Publishing, 2015.
 
+\bibitem{SCoockbook}
+Rishi Yadav.
+\newblock {\em {Spark Cookbook}}.
+\newblock Packt Publishing, Jul 2015.
+
+\bibitem{05GitDAG}
+{eBay/Spark}, Jun 2018.
+\newblock [Online; accessed 26. Jun. 2018].
+
+\bibitem{6DAGandPE}
+{Understand DAG and Physical Execution Plan in Apache Spark}, Jun 2018.
+\newblock [Online; accessed 26. Jun. 2018].
+
 \bibitem{6DFariDAG}
 {Directed Acyclic Graph DAG in Apache Spark - DataFlair}, Apr 2017.
 \newblock [Online; accessed 26. Jun. 2018].
