@@ -8,10 +8,10 @@ Las colecciones de datos que forman los RDD no son solo cualquier tipo de objeto
 
 \section{RDD de pares clave valor}
 
-Son un tipo especial de RDD, compuestos por pares de clave - valor (key-value), lo cual significa que están formados por una lista de tuplas cuyo primer elemento corresponde a la clave y el segundo es el valor que se le asocia a la clave. Podrían ser comparados, pues, con diccionarios o mapas en otros lenguajes de programación, como Python o Java. Spark habilita muchas funciones específicas para trabajar con este tipo de RDDs, ya que le posibilitan actuar en cada clave en paralelo, o reagrupar datos en la red.\\
+Son un tipo especial de RDD \cite{IntroduccionAS}, compuestos por pares de clave - valor (key-value), lo cual significa que están formados por una lista de tuplas cuyo primer elemento corresponde a la clave y el segundo es el valor que se le asocia a la clave. Podrían ser comparados, pues, con diccionarios o mapas en otros lenguajes de programación, como Python o Java. Spark habilita muchas funciones específicas para trabajar con este tipo de RDDs, ya que le posibilitan actuar en cada clave en paralelo, o reagrupar datos en la red.\\
 
 \section{Propiedades de los RDD}
-Ahora que ya hemos estudiado la definición de los RDDs en general, veamos las cinco propiedades internas que caracterizan un RDD en particular: la lista de objetos de partición, la lista con las dependencias de los RDDs padres, una función, una ubicación y el particionador:
+Ahora que ya hemos estudiado la definición de los RDDs en general, veamos las cinco propiedades internas \cite{SCoockbook} que caracterizan un RDD en particular: la lista de objetos de partición, la lista con las dependencias de los RDDs padres, una función, una ubicación y el particionador:\\
 
 \begin{itemize}
 \item La lista de objetos de partición que componen el RDD puede ser consultada mediante la función \textit{partitions()}, que devuelve un array con los objetos de partición, que componen las partes del conjunto de datos distribuidos.

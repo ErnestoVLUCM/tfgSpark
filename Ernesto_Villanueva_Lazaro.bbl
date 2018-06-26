@@ -1,8 +1,17 @@
 \begin{thebibliography}{1}
 
-\bibitem{learnSpark}
-Patrick Wendell Matei~Zaharia Holden~Karau, Andy~Konwinski.
-\newblock {\em Learning Spark}.
-\newblock 2015.
+\bibitem{recordSorting}
+{Apache Spark officially sets a new record in large-scale sorting}, Nov 2014.
+\newblock [Online; accessed 26. Jun. 2018].
+
+\bibitem{IntroduccionAS}
+M.~Mac{\ifmmode\acute{\imath}\else\'{\i}\fi}as,
+  M.~G{\ifmmode\acute{o}\else\'{o}\fi}mez, R.~Tous, and J.~Torres.
+\newblock {\em {Introducci{\ifmmode\acute{o}\else\'{o}\fi}n a Apache Spark}}.
+\newblock Oberta UOC Publishing, 2015.
+
+\bibitem{6DFariDAG}
+{Directed Acyclic Graph DAG in Apache Spark - DataFlair}, Apr 2017.
+\newblock [Online; accessed 26. Jun. 2018].
 
 \end{thebibliography}
