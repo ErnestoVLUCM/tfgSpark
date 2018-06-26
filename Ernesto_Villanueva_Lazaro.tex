@@ -14,12 +14,21 @@
 \usepackage{changepage}
 \usepackage{cite}
 \usepackage{url}
+\usepackage{hyperref}
 
 \usepackage{fancyhdr} %para cabeceras
 
 
 \usepackage[left=2.50cm, right=2.50cm]{geometry}
-
+\lstset{basicstyle=\ttfamily,
+        keywordstyle=\color{blue},
+        framerule=0pt,frame=single, %frame=trBL,frameround=ftttm,
+        lineskip=0pt,
+        emptylines=1,
+        showstringspaces=false,
+        escapechar=·,
+        language=Scala
+}
 
 %\author{Ernesto Villanueva Lazaro}
 %\title{Spark}
@@ -68,40 +77,7 @@
 
 \end{document}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
