@@ -1,0 +1,27 @@
+\chapter{Introducción}
+\pagenumbering{arabic}
+
+La Historia siempre ha tomado como referencia acontecimientos de vital importancia que han introducido cambios fundamentales en la historia de la humanidad;  podemos encontrar activos que sobresalen con respecto al resto, algunos tan relevantes para su época que incluso los bautizan: Edad de Piedra, Edad del Bronce, Edad del Hierro. Más recientemente podemos encontrar el carbón, o tras él el petróleo, pero si tuviéramos que destacar  unos elementos actuales por encima de otros para señalarlos como el epicentro de nuestra sociedad, serían los datos, fuente de la información, y, por tanto, del poder.\\
+
+En la economía digital actual los datos constituyen el activo más valioso de muchas empresas. Nos estamos adentrando en la era del Big Data, prueba de esto es que hasta 1.2 ZB de datos IP circularon a través de Internet en 2016 \cite{0cisco} o el crecimiento sin precedentes en la velocidad a la que son producidos; en los últimos dos años se ha creado el 90 por ciento de los datos que hay en el mundo \cite{0IBM}. \\
+
+En este contexto surgen nuevos términos , como “huella digital”, empleado para referirnos al rastro que dejamos al navegar e interactuar con la red, que abarca desde qué páginas visitamos, a cuánto tiempo pasamos en ellas y dónde clicamos, nuevas empresas, o alguna ya existente, que han sabido aprovechar la importancia del dato, como Amazon, Netflix, Facebook o Google, nuevas leyes \cite{0RGPD} que actualizan las ya existentes para adecuarlas al nuevo contexto, nuevas profesiones dedicadas a explotar y aprovechar el valor del dato, como los \textit{Data Scientist} y los \textit{Data Developer}, así como multitud de herramientas con las que hacerlo, como Hadoop Mapreduce, Apache HBase, Apache Hive, Apache Kafka, Apache Mesos, Apache Pig... \\
+
+En esta memoria vamos a introducirnos en el framework Apache Spark, herramienta que , como veremos, nos permite manejar grandes cantidades de información de manera rápida y versátil, ofreciéndonos la posibilidad de trabajar con datos estructurados, semi-estructurados o no estructurados, capaz de tratar con multitud de formatos como CSV, JSON, procesar datos en streaming, aplicar machine learning sobre nuestra información o hacer estudios sobre grafos y, además, podremos hacer esto en diferentes lenguajes. La manera que hemos encontrado más adecuada de trabajar con Spark es a través de su lenguaje nativo Scala, y que en los últimos años se ha convertido en el lenguaje basado en JVM más popular tras Java \cite{0PYPL}. \\
+
+Para ello,  partiremos desde cero, estudiando los conceptos clave para entender cómo trabaja Spark y finalizaremos con unos ejemplos donde poder poner en práctica lo aprendido. En el transcurso de esta memoria nos apoyaremos  especialmente en dos libros de referencia, Spark the Definitive Guide \cite{stdg} y High Perfomance Spark\cite{HPerfomance}, entre otros muchos.\\
+
+Aunque Spark fue diseñado pensando en ser usado sobre un clúster, para la realización de este trabajo se ha utilizado un ordenador personal.\\
+
+
+\section{Metodología}
+
+El trabajo se va a realizar en cuatro fases:
+
+En la primera, presentaremos a Spark, haremos un repaso sobre su historia, los motivos que llevaron a su creación  y estudiaremos los componentes que configuran el ecosistema Spark.
+
+En la segunda, estudiaremos las abstracciones que usa Spark para manejar datos, cómo operar sobre ellas y empezaremos a entender el impacto que tiene la manera de organizar nuestro código en Spark.
+
+En tercer lugar, vamos a estudiar qué sucede cuando se ejecuta código en Spark, cómo se organizan sus distintos elementos en un clúster y la manera que tiene de transformar el código de un usuario en un trabajo realizado.
+
+Acabaremos poniendo algunos conceptos en práctica mediante el estudio de vuelos realizados en EEUU.

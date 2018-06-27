@@ -14,12 +14,21 @@
 \usepackage{changepage}
 \usepackage{cite}
 \usepackage{url}
+\usepackage{hyperref}
 
 \usepackage{fancyhdr} %para cabeceras
 
 
 \usepackage[left=2.50cm, right=2.50cm]{geometry}
-
+\lstset{basicstyle=\ttfamily, 
+        keywordstyle=\color{blue}, 
+        framerule=0pt,frame=single, %frame=trBL,frameround=ftttm, 
+        lineskip=0pt, 
+        emptylines=1, 
+        showstringspaces=false, 
+        escapechar=·, 
+        language=Scala 
+} 
 
 %\author{Ernesto Villanueva Lazaro}
 %\title{Spark}
@@ -54,13 +63,15 @@
 \fancyfoot[EC]{\thepage}
 \renewcommand{\headrulewidth}{0pt}
 \renewcommand{\footrulewidth}{0pt}
- \input{capitulos/cap1_spark}
+\input{capitulos/cap0_introduccion}
+\input{capitulos/cap1_spark}
 \input{capitulos/cap2_historia}
 \input{capitulos/cap3_componentes}
 \input{capitulos/cap4_rdd}
 \input{capitulos/cap5_arquitectura}
 \input{capitulos/cap6_funcionamiento}
-\input{capitulos/cap7_conclusiones}
+\input{capitulos/cap7_codigo}
+\input{capitulos/cap8_conclusiones}
 
 \addcontentsline{toc}{chapter}{Referencias}
 \bibliographystyle{unsrt} %abbry unsrt
