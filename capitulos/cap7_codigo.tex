@@ -1,1 +1,62 @@
 \chapter{Codigo}
+
+En esta sección abordaremos la parte práctica sobre Spark. El proyecto ha sido construido usando Apache Maven y, como ya se ha dicho antes, usaremos Scala (ver. 2.11.12) y trabajaremos con la última versión de Spark (Spark-Core 2.3.1, Spark Sql 2.3.1, Spark Graphx 2.3.1 y Spark GraphFrames 0.5.0).\\
+
+\section{Word Count}
+
+
+Como no podía ser de otra manera, empezaremos viendo cómo implementar un programa para contar palabras, el “print (“hola mundo”) de la programación paralela:\\
+
+\begin{lstlisting}[frame=single]
+  @transient lazy val sparkSession: SparkSession =
+    SparkSession
+      .builder()
+      .appName("WordCount")
+      .config("spark.master", "local")
+      .getOrCreate()
+      
+  val sc = sparkSession.sparkContext
+  sc.setLogLevel("ERROR")
+
+  val path = "/home/evl/Escritorio/flights/data/Quijote.txt"
+  val quijote: RDD[String] = sc.textFile(path)
+
+  // amount word
+  val quijoteWordsCount = quijoterDD.flatMap(line 
+  	=> line.split(" ")).count
+  println(s"en el quijote hay: $quijoteWordsCount palabras")
+
+\end{lstlisting}
+
+El procedimiento es sencillo. Para empezar, cargamos el texto usando sparkContext. Al leer el texto, lo que obtenemos es un RDD compuesto por las líneas del documento, por lo que lo primero que debemos hacer es separar esas líneas en palabras. Esto lo conseguimos con la función split(“ “) al recorrer el RDD usando la función flatMap(). A continuación, simplemente tendremos que contar el número de palabras con la función count().\\
+
+Si lo que queremos es contar el número de apariciones de una palabra en concreto, utilizaremos la siguiente función:\\
+
+\begin{lstlisting}[frame=single]
+    val word = "Dulcinea"
+    val quijoteCount = wordCount(quijote, word)
+    println(s"En el Quijote aparece $quijoteCount veces la 
+    	palabra $word")
+    
+    
+  def wordCount(rDD: RDD[String], key: String): Long = {
+    val words = rDD.flatMap(_.split(" "))
+    words.map(_.toLowerCase().replaceAll("\\P{L1}",""))
+    	.filter(_ == key.toLowerCase).count()
+  }
+    
+\end{lstlisting}
+
+Aquí, tras partir el RDD en palabras, no basta simplemente con encontrar coincidencias con la palabra buscada, puesto que en ese caso estaríamos perdiendo registros. Para evitar esto, haremos la comprobación pasando a minúsculas la palabra a buscar y las palabras del texto, además de descartar “,”, “.”, “!” y demás caracteres especiales que no sean letras. \\
+     
+
+FLIGHTS RDD
+
+Durante la formación que recibí en mi actual trabajo, en Stratio, Jorge López Malla nos propuso una serie de ejercicios con los que extraer información de un dataset público que recoge registros de vuelos en EEUU. Disfruté resolviéndolos y me parecieron de gran interés, por lo que consideré apropiado incluirlos en la presente memoria. 
+
+En primer lugar, cargamos el csv usando la función read de sparkSession: 
+
+
+\begin{lstlisting}[frame=single]
+
+\end{lstlisting}

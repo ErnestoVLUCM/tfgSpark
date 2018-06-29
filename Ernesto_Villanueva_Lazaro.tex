@@ -15,6 +15,7 @@
 \usepackage{cite}
 \usepackage{url}
 \usepackage{hyperref}
+\usepackage{parskip}
 
 \usepackage{fancyhdr} %para cabeceras
 
@@ -22,34 +23,34 @@
 \usepackage[left=2.50cm, right=2.50cm]{geometry}
 \lstset{basicstyle=\ttfamily, 
         keywordstyle=\color{blue}, 
-        framerule=0pt,frame=single, %frame=trBL,frameround=ftttm, 
+        framerule=0pt,frame=single,% fragetMaxme=trBL,frameround=ftttm, 
         lineskip=0pt, 
         emptylines=1, 
         showstringspaces=false, 
         escapechar=·, 
-        language=Scala 
+        language=Scala
 } 
 
 %\author{Ernesto Villanueva Lazaro}
 %\title{Spark}
 
 \begin{document}
+\pagenumbering{Roman}
+
 %
-\fancyhead[E]{}
-\fancyfoot[E]{}
-\renewcommand{\headrulewidth}{0pt}
-\renewcommand{\footrulewidth}{0pt}
+
 %
 
 
 
  % el titulo con title page y cambiar include por input
 \input{capitulos/00portada}
-\thispagestyle{empty}
-\renewcommand{\contentsname}{Índice}
+\input{capitulos/01Autorizacion}
 
-\tableofcontents
 \thispagestyle{empty}
+%\input{capitulos/01Autorizacion}
+\renewcommand{\contentsname}{Índice}
+\tableofcontents
 
 \fancyhead[E]{}
 \fancyfoot[E]{}
