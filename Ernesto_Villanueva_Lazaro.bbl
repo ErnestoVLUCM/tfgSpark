@@ -62,6 +62,14 @@ Rishi Yadav.
 {Directed Acyclic Graph DAG in Apache Spark - DataFlair}, Apr 2017.
 \newblock [Online; accessed 26. Jun. 2018].
 
+\bibitem{motif}
+{Motif Analysis using Apache Spark GraphFrames}, Jun 2018.
+\newblock [Online; accessed 26. Jun. 2018].
+
+\bibitem{graphFramesGuide}
+{User Guide - GraphFrames 0.5.0 Documentation}, May 2017.
+\newblock [Online; accessed 26. Jun. 2018].
+
 \bibitem{9Catalyst}
 {Catalyst: A Query Optimization Framework for Spark and Shark - Databricks},
   Jun 2018.
