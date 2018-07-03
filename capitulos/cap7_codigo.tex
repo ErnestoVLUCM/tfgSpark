@@ -2,10 +2,94 @@
 
 En esta sección abordaremos la parte práctica sobre Spark. El proyecto ha sido construido usando Apache Maven y, como ya se ha dicho antes, usaremos Scala (ver. 2.11.12) y trabajaremos con la última versión de Spark (Spark-Core 2.3.1, Spark Sql 2.3.1, Spark Graphx 2.3.1 y Spark GraphFrames 0.5.0).\\
 
+Los distintos ejemplos tratados en las siguientes líneas suponen una extracción del total realizado para este trabajo; el resto pueden ser descargados del siguiente repositorio de  github: \textcolor{blue}{\underline{\url{https://github.com/ErnestoVLUCM/Origin/tree/develop}}} 
+
+\section{Introducción a Scala}
+
+Antes de afrontar los distinto ejemplos de Spark que trataremos en el siguiente bloque, resulta imperativo ver unas nociones básicas acerca del lenguaje Scala. Se trata de un lenguaje creado por Martin Odersky en 2003. Es un lenguaje puro de programación orientada a objetos \cite{scalaCoockbook}, lo que implica que todas las variables son tratadas como objetos, y los operadores como métodos. Además, es un lenguaje de programación funcional. El código de Scala se ejecuta sobre JVM y es posible el uso de librerías de Java.\\
+
+Cuando programemos en Scala, por lo general lo haremos usando variables inmutables, usando la sentencia val para declararlas, aunque es posible trabajar con variables mutables, usando la sentencia var; veamos cómo hacerlo:\\
+
+\begin{lstlisting}[frame=single]
+//We define an immutable String
+val hello = "hola"
+
+//We define a mutable String specifying the typing
+var world: String = "mundo"
+
+println(hello + world)
+holamundo
+
+world = "a todos"
+
+println(hello + world)
+holaa todos
+println(s"$hello $world")
+hola a todos
+\end{lstlisting}
+
+Al definir funciones en Scala es necesario indicar el tipo de los parámetros de entrada. El tipo de los parámetros de salida no es necesario indicarlo, a excepción de que se trate de una función recursiva:\\
+
+\begin{lstlisting}[frame=single]
+def mult1(x: Int) = {
+  x * x
+}
+
+def mult2(x: Int): Int = {
+  x * x
+}
+
+def multDefaultValue(x: Int = 1) = {
+  x * x
+}
+
+def sumRecursive(n: Int): Int = {
+  if (n == 0) 0 else n + sumRecursive(n - 1)
+}
+
+def sumTailRecursive(n: Int): Int = {
+  def sum(n: Int, acc: Int): Int = {
+    if(n == 0) acc
+    else sum(n - 1, acc + n)
+  }
+  sum(n, 0)
+}
+\end{lstlisting}
+
+En Scala no disponemos de las funciones \textit{for} o \textit{while} ;cuando queramos iterar sobre una lista, lo haremos usando la función \textit{map()}. Además, Scala nos permite reducir la cantidad de código que escribimos con atajos conocidos como \textit{syntactic sugar}:
+
+\begin{lstlisting}[frame=single]
+val list: List[Int] = List(1, 2, 3)
+
+list.map(elemento => mult2(elemento))
+
+list.map(mult2(_))
+\end{lstlisting}
+
+En la siguiente sección trataremos varias veces con tuplas, así que veamos cómo estas se definen en Scala y distintas formas de manipularlas:
+
+\begin{lstlisting}[frame=single]
+val tupla: List[(Int, String)] = List((1,"a"), (2,"b"), (3,"c"))
+
+tupla.map(tupla => 
+	(sumTailRecursive(tupla._1), tupla._2.toUpperCase))
+
+tupla.map{case(firstElement, secondElement) => 
+	(sumTailRecursive(firstElement), 
+	secondElement.toUpperCase())}
+
+tupla.map{case(firstElement, _) => 
+	sumTailRecursive(firstElement) }
+
+\end{lstlisting}
+
+Hasta aquí las nociones básicas que resultan necesario cubrir antes de continuar. Con lo que hemos visto podemos intuir que Scala es un lenguaje intuitivo y legible. Cuenta con la ventaja de heredar las librerías de Java, con el añadido de evitar efectos de lado si definimos las variables de manera inmutable.\\
+
+Aunque no hemos hablado de ello en esta sección, por carecer de relevancia de cara a prepararnos para los próximos ejemplos, Scala ofrece funcionalidades muy interesantes como el control de casos usando \textit{pattern matching} (similar a las guardas en Haskell ) o el uso de implícitos, entre otros, haciendo de él un lenguaje muy potente. 
+
 \section{Word Count}
 
-
-Como no podía ser de otra manera, empezaremos viendo cómo implementar un programa para contar palabras, el “print (“hola mundo”) de la programación paralela:\\
+Como no podía ser de otra manera, empezaremos viendo cómo implementar un programa para contar palabras, el \textit{“print (“hola mundo”)} de la programación paralela:\\
 
 \begin{lstlisting}[frame=single]
   @transient lazy val sparkSession: SparkSession =
@@ -47,16 +131,149 @@ Si lo que queremos es contar el número de apariciones de una palabra en concret
     
 \end{lstlisting}
 
-Aquí, tras partir el RDD en palabras, no basta simplemente con encontrar coincidencias con la palabra buscada, puesto que en ese caso estaríamos perdiendo registros. Para evitar esto, haremos la comprobación pasando a minúsculas la palabra a buscar y las palabras del texto, además de descartar “,”, “.”, “!” y demás caracteres especiales que no sean letras. \\
+Aquí, tras partir el RDD en palabras, no basta simplemente con encontrar coincidencias con la palabra buscada, puesto que en ese caso estaríamos perdiendo registros. Para evitar esto, haremos la comprobación pasando a minúsculas la palabra a buscar y las palabras del texto, además de descartar cualquier carácter especial que no sean letras, como comas, puntos o signos de exclamación, mediante el uso de una expresión regular.\\
      
+No podemos repetir la misma palabra en posiciones tan cercanas. Este primer contacto con Spark nos muestra lo intuitivo y directo que resulta frente a competidores como Hadoop MapReduce.\\
 
-FLIGHTS RDD
+\section{RDD de pares clave valor}
 
-Durante la formación que recibí en mi actual trabajo, en Stratio, Jorge López Malla nos propuso una serie de ejercicios con los que extraer información de un dataset público que recoge registros de vuelos en EEUU. Disfruté resolviéndolos y me parecieron de gran interés, por lo que consideré apropiado incluirlos en la presente memoria. 
+Una vez expuesto el problema más básico de la programación paralela, continuaremos familiarizándonos con la programación mediante RDD de pares clave valor. Para ello analizaremos un csv con registros de vuelos en EEUU.\\ 
 
-En primer lugar, cargamos el csv usando la función read de sparkSession: 
-
+En primer lugar, cargamos el csv en formato DataFrame usando la función read de sparkSession: \\
 
 \begin{lstlisting}[frame=single]
-
+  @transient lazy val sparkSession: SparkSession =
+    SparkSession.builder().appName("Sparkflights")
+    .config("spark.master", "local").getOrCreate()
+    
+  val path =  "~/2001.csv"
+  
+  val flightsDF = sparkSession.read.format("csv")
+  	.option("path", path).option("header", "true")
+  	.option("inferSchema", "true").load.cache()
 \end{lstlisting}
+
+Empezamos calculando las n rutas más repetidas a lo largo de un año:\\
+
+\begin{lstlisting}[frame=single]
+  def getTopNflights(flightsDF: DataFrame, n: Int): 
+  	Array[((String, String), Int)] = {
+  	
+    val sqlContext = flightsDF.sqlContext
+    import sqlContext.implicits._
+    flightsDF.map(flightRow => {
+      val source = flightRow.getAs[String](origin)
+      val destination = flightRow.getAs[String](dest)
+      ((source, destination), 1)
+    }).rdd.reduceByKey(_ + _).sortBy(_._2, 
+    ascending = false).take(n)
+  }
+\end{lstlisting}
+
+Lo hacemos extrayendo los campos correspondientes al aeropuerto origen y al aeropuerto destino y usándolos como clave en una tupla cuyo valor asociado es 1. Al realizar esta operación lo que obtenemos es un Dafaset, por eso lo pasamos a RDD mediante la función rdd(). Este paso inicial lo repetiremos en las siguientes funciones, pues nos permite definir de manera rápida e intuitiva RDDs de pares clave valor a partir de un DataFrame. Llegados a este punto, simplemente tenemos que sumar todos los valores asociados a las claves, es decir, todas las veces que se ha producido un vuelo desde un aeropuerto origen A hasta un aeropuerto destino B; para ello usamos la función \textit{reduceByKey()}. Como buscamos los n vuelos que más se han repetido, ordenamos el RDD en función de los valores asociados a las claves; gracias al azúcar sintáctico de Scala podemos hacerlo escribiendo muy poco. Ya solo resta quedarnos con los n primeros resultados usando la función \textit{take()}.\\
+
+
+Continuamos estudiando para cada mes el aeropuerto con mayor media de vuelos que han despegado desde él:\\
+
+\begin{lstlisting}[frame=single]
+def getMaximunAvgByMonth(flightsDF: DataFrame): 
+	RDD[(Int,(String,Double))] = {
+  
+  val sqlC = flightsDF.sqlContext
+  import sqlC.implicits._
+
+  val fMonthKeySum = flightsDF.map(flightRow =>
+    ((flightRow.getAs[Int]("Mont"), 
+    flightRow.getAs[String]("Origin")),1))
+    .rdd.reduceByKey(_+_).cache()
+
+  val fMonthSum = fMonthKeySum.map{case((month, _), count) =>
+    (month,count)}.reduceByKey(_+_)
+
+  val fMonthFligths = fMonthKeySum.map{case
+  	((month, airport), count) =>
+    (month, (airport, count))}
+
+  fMonthKeySum.unpersist()
+  val fmonthJoin = fMonthFligths.join(fMonthSum)
+
+  val fmonthAvg = fmonthJoin.mapValues{case 
+  	((airport, airportCounter), monthCounter) =>
+  	(airport, (monthCounter/airportCounter).toDouble)}
+  
+  fmonthAvg.reduceByKey((current, next) =>
+      if (current._2 < next._2) current
+      else next)
+}
+\end{lstlisting}
+
+En este caso, en primer lugar, agrupamos por mes y aeropuerto y contamos cuántos vuelos hay para cada clave. Como este RDD lo usaremos dos veces lo cacheamos. Para hacer la media necesitamos saber cuántos vuelos se han producido en cada mes, este resultado lo almacenamos en la variable \textit{fMonthSuma}. La información que nos falta para poder calcular la media por mes es un RDD de clave mes y valor una tupla con cada aeropuerto y la cantidad de vuelos despegados desde él en cada mes; para obtener esta información simplemente tenemos que reordenar el rdd \textit{fMonthKeySum}. Continuamos uniendo los dos RDDs mediante la operación \textit{join()}. LLegados a este punto, para calcular la media únicamente tenemos que recorrer los valores del RDD dividiendo los resultados obtenidos anteriormente, la cantidad de vuelos al mes entre la cantidad de vuelos con salida en cada aeropuerto. Por último, para quedarnos con el aeropuerto con mayor media por mes recorremos todas las claves de dos en dos con la función \textit{reduceByKey} quedándonos con los registros con mayor media.\\
+
+Con este ejemplo cerramos los ejercicios sobre el Core de Spark. Resultan ser muy representativos en la programación con RDDs. Esta manera de programar no es la más usual, pero sí sirve como una buena primera toma de contacto con Spark.\\
+
+\section{GraphFrames}
+
+En este apartado abordaremos el mismo dataset con el que hemos estado trabajando durante la sección anterior, pero, en esta ocasión, construiremos un grafo usando la librería GraphFrames y veremos alguno de los algoritmos y consultas que nos habilita.\\
+
+Empezamos con la construcción del grafo. Para ello, la siguiente función recibirá como parámetro el DataFrame con los registros de vuelos creado en el apartado anterior:\\
+
+\begin{lstlisting}[frame=single]
+  def createGraph(flightsDF: DataFrame): GraphFrame = {
+
+    val dayOfYear = (year:Int, month:Int, day:Int) => 
+    	new DateTime().year.setCopy(year).monthOfYear
+    	.setCopy(month).dayOfMonth.setCopy(day)
+    	.dayOfYear().get
+    
+    val flightsDS = flightsDF.map(flightRow => {
+      val source = flightRow.getAs[String]("Origin")
+      val destination = flightRow.getAs[String]("Dest")
+      val distance = flightRow.getAs[Int]("Miles")
+      val year = flightRow.getAs[Int]("Year")
+      val month = flightRow.getAs[Int]("Month")
+      val dayOfWeek = flightRow.getAs[Int]("DayOfWeek")
+      val date = dayOfYear(year, month, dayOfWeek)
+      (source, destination, date, distance)})
+
+    val colNames = Seq(src, dst, date, miles)
+    val edg = flightsDS.toDF(colNames: _*)
+    
+    val aiports = flightsDS.rdd.flatMap{case (source, dest, _,_) 
+    	=> Seq(source, dest)}.distinct()
+    val vertexID = aiports.distinct().toDF("id")
+
+    GraphFrame(vertexID, edg)
+  }
+\end{lstlisting}
+
+Gracias a la librería \textit{joda} podemos obtener el día del año de manera sencilla; esto nos será útil para filtrar por fechas más adelante. Para crear un grafo en GraphFrames necesitamos dos DataFrames, uno con la información de los vértices y otro con las aristas, siendo preciso que el campo con el que identificaremos los vértices sea denotado por \textbf{“id”}, mientras que en el caso de las aristas el nodo origen sea definido como \textbf{“src”} y el nodo destino como \textbf{“dst”}, no existiendo restricciones para el resto de los campos. En este caso nuestro DataFrame correspondiente a los vértices tendrá únicamente el campo identificador de los nodos, correspondiendo estos a los distintos aeropuertos del fichero, mientras  que el DataFrame que define las aristas informará con el aeropuerto de partida, de llegada, el día del año en el que se produce el vuelo y la distancia recorrida.\\
+
+Una vez que tenemos creado el GraphFrame, podemos utilizar las funciones que nos proporciona esta librería, que nos permite, por ejemplo, calcular de manera sencilla el nodo con mayor ratio entre el grado de entrada y el de salida:\\
+
+GraphFrames nos habilita la posibilidad de hacer consultas mediante patrones \cite{motif}. Veámoslo con un ejemplo a través del cual buscaremos triángulos dirigidos en nuestro grafo:\\
+
+\begin{lstlisting}[frame=single]
+  def getMinDistTriangles(graph: GraphFrame): Dataset[Row] = {
+    val triangles = graph.find("(a)-[ab]->(b); 
+    	(b)-[bc]->(c); (c)-[ca]->(a)")
+    triangles.where("ab.date < bc.date")
+    	.where("bc.date < ca.date")
+  }
+\end{lstlisting}
+
+Con la expresión (a)-[ab]->(b) en la función \textit{find()} obtenemos todas las conexiones entre dos nodos genéricos a y b. Con el resto de la función \textit{find()} estamos definiendo un triángulo de vértices a b c.  Por último, lo interesante sería contemplar únicamente aquellos casos en los que el triángulo se haya recorrido en orden cronológico; lo hacemos empleando la función \textit{where()}.\\
+
+GraphFrames nos proporciona multitud de algoritmos sobre grafos \cite{graphFramesGuide}. Veamos, por ejemplo, cómo calcular el famoso algoritmo que usa Google (http://infolab.stanford.edu/~backrub/google.html) para estimar la importancia de cada nodo del grafo, en función de los nodos que llegan a él y de la importancia de estos:\\
+
+\begin{lstlisting}[frame=single]
+  def getPageRankSorted(graph: GraphFrame): Dataset[Row]={
+
+    val ranks = graph.pageRank.resetProbability(0.15).
+    	maxIter(10).run()
+
+	ranks.vertices.orderBy($"pagerank".desc)
+		.select("id", "pagerank")
+  }
+\end{lstlisting}
+
+Como podemos observar en este ejemplo, gracias a la librería GraphFrames tenemos acceso de una manera sencilla a potentes algoritmos sobre grafos.\\
