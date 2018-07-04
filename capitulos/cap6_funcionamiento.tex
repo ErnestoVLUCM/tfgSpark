@@ -23,11 +23,11 @@ Para ser más eficiente, Spark agrupa las operaciones que pueden ser aplicadas e
 
 En consecuencia, entre una etapa y el siguiente se necesita comunicación con el driver, por lo que se han de ejecutar en secuencia. Sin embargo, en casos donde no se requiera información de otra etapa, por ejemplo, aplicar operaciones a dos RDD sin ningún padre común, se pueden calcular en paralelo.\\
 
-\begin{figure}[H]
-	\includegraphics[scale=0.6]{img/etapas} 
-	\centering
-	\caption{pie de foto}
-	\label{foto}
+\begin{figure}[t]
+        \includegraphics[scale=0.6]{img/etapas}
+        \centering
+        \caption{pie de foto}
+        \label{foto}
 \end{figure}
 
 Podemos clasificar las etapas en dos categorías diferentes, según lo que marque su final:\\
