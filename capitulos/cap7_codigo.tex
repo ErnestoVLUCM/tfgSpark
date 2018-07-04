@@ -1,4 +1,4 @@
-\chapter{Código}
+\chapter{Ejemplos con spark}
 
 En esta sección abordaremos la parte práctica sobre Spark. El proyecto ha sido construido usando Apache Maven y, como ya se ha dicho antes, usaremos Scala (ver. 2.11.12) y trabajaremos con la última versión de Spark (Spark-Core 2.3.1, Spark Sql 2.3.1, Spark Graphx 2.3.1 y Spark GraphFrames 0.5.0).\\
 
@@ -56,7 +56,7 @@ def sumTailRecursive(n: Int): Int = {
 }
 \end{lstlisting}
 
-En Scala no disponemos de las funciones \textit{for} o \textit{while} ;cuando queramos iterar sobre una lista, lo haremos usando la función \textit{map()}. Además, Scala nos permite reducir la cantidad de código que escribimos con atajos conocidos como \textit{syntactic sugar}:
+En Scala no disponemos de las funciones \textit{for} o \textit{while}; cuando queramos iterar sobre una lista, lo haremos usando la función \textit{map()}. Además, Scala nos permite reducir la cantidad de código que escribimos con atajos conocidos como \textit{syntactic sugar}:
 
 \begin{lstlisting}[frame=single]
 val list: List[Int] = List(1, 2, 3)
@@ -207,7 +207,7 @@ def getMaximunAvgByMonth(flightsDF: DataFrame):
 }
 \end{lstlisting}
 
-En este caso, en primer lugar, agrupamos por mes y aeropuerto y contamos cuántos vuelos hay para cada clave. Como este RDD lo usaremos dos veces lo cacheamos. Para hacer la media necesitamos saber cuántos vuelos se han producido en cada mes, este resultado lo almacenamos en la variable \textit{fMonthSuma}. La información que nos falta para poder calcular la media por mes es un RDD de clave mes y valor una tupla con cada aeropuerto y la cantidad de vuelos despegados desde él en cada mes; para obtener esta información simplemente tenemos que reordenar el rdd \textit{fMonthKeySum}. Continuamos uniendo los dos RDDs mediante la operación \textit{join()}. LLegados a este punto, para calcular la media únicamente tenemos que recorrer los valores del RDD dividiendo los resultados obtenidos anteriormente, la cantidad de vuelos al mes entre la cantidad de vuelos con salida en cada aeropuerto. Por último, para quedarnos con el aeropuerto con mayor media por mes recorremos todas las claves de dos en dos con la función \textit{reduceByKey} quedándonos con los registros con mayor media.\\
+En este caso, en primer lugar, agrupamos por mes y aeropuerto y contamos cuántos vuelos hay para cada clave. Como este RDD lo usaremos dos veces lo cacheamos. Para hacer la media necesitamos saber cuántos vuelos se han producido en cada mes, este resultado lo almacenamos en la variable \textit{fMonthSuma}. La información que nos falta para poder calcular la media por mes es un RDD de clave mes y valor una tupla con cada aeropuerto y la cantidad de vuelos despegados desde él en cada mes; para obtener esta información simplemente tenemos que reordenar el rdd \textit{fMonthKeySum}. Continuamos uniendo los dos RDDs mediante la operación \textit{join()}. LLegados a este punto, para calcular la media únicamente tenemos que recorrer los valores del RDD dividiendo los resultados obtenidos anteriormente, la cantidad de vuelos al mes entre la cantidad de vuelos con salida en cada aeropuerto. Por último, para quedarnos con el aeropuerto con mayor media por mes, recorremos todas las claves de dos en dos con la función \textit{reduceByKey}, quedándonos con los registros con mayor media.\\
 
 Con este ejemplo cerramos los ejercicios sobre el Core de Spark. Resultan ser muy representativos en la programación con RDDs. Esta manera de programar no es la más usual, pero sí sirve como una buena primera toma de contacto con Spark.\\
 

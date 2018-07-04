@@ -26,8 +26,8 @@ En consecuencia, entre una etapa y el siguiente se necesita comunicación con el
 \begin{figure}[H]
 	\includegraphics[scale=0.6]{img/etapas} 
 	\centering
-	\caption{pie de foto}
-	\label{foto}
+	\caption{Límite entre dos etapas}
+	\label{etapas}
 \end{figure}
 
 Podemos clasificar las etapas en dos categorías diferentes, según lo que marque su final:\\
@@ -58,7 +58,7 @@ Se trata de una operación muy costosa, pues debe leer todas las particiones par
 
 La fase de shuffle se desarrolla en dos partes: map y reduce. En la parte de map, Spark genera archivos intermedios que son escritos en disco en la ruta local de cada nodo. Estos archivos son conservados hasta que los RDD a los que corresponden ya no se utilizan, de esta manera, en caso de fallo no es necesario que vuelvan a ser calculados. Cada tarea map escribe un archivo por cada tarea Reduce. El directorio de almacenamiento temporal en disco puede ser configurado en la propiedad spark.local.dir que se configura a nivel de application. Además, spark brinda la opción de comprimir los archivos de salida Map, especificados por el parámetro \textit{spark.shuffle.compress}.\\
 
-Un efecto de lado provocado por esta persistencia en disco durante la fase de shuffle es que la ejecución de un nuevo trabajo sobre los datos que ya se han pasado por la fase shuffle no vuelve a ejecutar la parte map del shuffle. Debido a que los archivos shuffle ya se habían escrito anteriormente en disco, Spark sabe que puede usarlos para ejecutar únicamente la parte reduce del shuffle. Pese a esta optimización automática,  para un mejor rendimiento es preferible realizar su propio almacenamiento en caché con el método caché, que le permite controlar exactamente qué datos guardar y dónde.\\
+Un efecto de lado, provocado por esta persistencia en disco durante la fase de shuffle, es que la ejecución de un nuevo trabajo sobre los datos que ya se han pasado por la fase shuffle, no vuelve a ejecutar la parte map del shuffle. Debido a que los archivos shuffle ya se habían escrito anteriormente en disco, Spark sabe que puede usarlos para ejecutar únicamente la parte reduce del shuffle. Pese a esta optimización automática,  para un mejor rendimiento es preferible realizar su propio almacenamiento en caché con el método caché, que le permite controlar exactamente qué datos guardar y dónde.\\
 
 Durante la fase de reduce, Spark requiere que todos los datos quepan en memoria. Cuando la memoria requerida de cada tarea reduce excede la asignada, se emite una excepción de falta de memoria y se debe interrumpir todo el trabajo. Para evitar quedarse sin memoria, se debe especificar un valor suficientemente alto para la cantidad de tareas reduce.\\
 

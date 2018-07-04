@@ -32,7 +32,7 @@ El SparkContext es una variable de entorno que configura los servicios internos 
 Una vez que se crea un SparkContext, puede usarlo para crear RDD, acumuladores y variables broadcast, acceder a los servicios de Spark y ejecutar trabajos (hasta que se detenga SparkContext). Proporciona acceso al clúster a través del cluster manager.
 SparkContext es esencialmente un cliente del entorno de ejecución de Spark y actúa como el maestro de su aplicación.\\
 
-SparkContext determina cuántos recursos se asignan a cada executor. Como veremos más adelante, cuando se lanza un trabajo de Spark, cada executor tiene ranuras (slots) para ejecutar las tareasnecesarias para calcular un RDD. De esta forma, podemos pensar en un SparkContext como un conjunto de parámetros de configuración para ejecutar trabajos de Spark. Estos parámetros (por ejemplo, la URL del nodo maestro) están expuestos en el objeto SparkConf, utilizado para crear un SparkContext.\\
+SparkContext determina cuántos recursos se asignan a cada executor. Como veremos más adelante, cuando se lanza un trabajo de Spark, cada executor tiene ranuras (slots) para ejecutar las tareas necesarias para calcular un RDD. De esta forma, podemos pensar en un SparkContext como un conjunto de parámetros de configuración para ejecutar trabajos de Spark. Estos parámetros (por ejemplo, la URL del nodo maestro) están expuestos en el objeto SparkConf, utilizado para crear un SparkContext.\\
  
 \section{DAG Sheduler}
  
@@ -45,6 +45,6 @@ Este modelo es una generalización del modelo MapReduce, el cual crea un DAG con
 \begin{figure}[H]
 	\includegraphics[scale=0.6]{img/arquitectura}
 	\centering
-	\caption{pie de foto}
-	\label{foto}
+	\caption{Arquitectura de Spark}
+	\label{Arquitectura}
 \end{figure}
