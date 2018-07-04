@@ -33,7 +33,7 @@ En consecuencia, entre una etapa y el siguiente se necesita comunicación con el
 Podemos clasificar las etapas en dos categorías diferentes, según lo que marque su final:\\
 
 \begin{itemize}
-\item ShuffleMapStage, que escribe los archivos de salida de shuffle (\ref{etapas}).
+\item ShuffleMapStage, que escribe los archivos de salida de shuffle [\ref{etapas}].
 \item ResultStage, para la etapa final que ejecuta una acción.
 \end{itemize}
 
@@ -50,13 +50,13 @@ Ahora que ya conocemos las distintas fases por las que pasa toda aplicación de 
 \section{Shuffle}
 Según la documentación oficial de Spark, el shuffle es “el mecanismo de Spark para redistribuir los datos de manera que se agrupen de manera diferente en las particiones”. Es conveniente aclarar que no todo movimiento de datos por el clúster es considerado como shuffle. Las acciones, escrituras o lecturas de una fuente externa no se consideran shuffle. La fase de shuffle representa una repartición física de los datos, esto es, conlleva escritura en disco. Esto contradice la definición inicial que dimos de Spark como  motor de computación en memoria, pero se trata de momentos concretos en los que debido a una transformación con dependencias \textit{wide}, es decir, cuando necesite combinar los datos de distintas etapas, o por saturación de memoria, en vez de mantener los datos cacheados los escribe temporalmente a disco, tras lo cual se genera una nueva etapa con un nuevo conjunto de particiones.\\
 
-Su comportamiento varía dependiendo del Shuffle Manager que usemos y cada uno tendrá su Caso de Uso. Tratar los diferentes shuffle manager va más allá de lo que pretendemos abordar en este texto, por lo que únicamente nos centraremos en las propiedades generales.\\
+Su comportamiento varía dependiendo del Shuffle Manager que usemos y cada uno tendrá su caso de uso. Tratar los diferentes shuffle manager va más allá de lo que pretendemos abordar en este texto, por lo que únicamente nos centraremos en las propiedades generales.\\
 
-Operaciones que pueden causar shuffle son aquellas que implican una repartición de los datos entre particiones, como repartition y coalesce, operaciones \textit{ByKey}, excepto  \textit{countByKey} y operaciones de mezcla de RDDs como \textit{cogroup} y \textit{join}.\\
+Operaciones que pueden causar shuffle son aquellas que implican una repartición de los datos entre particiones, como \textit{repartition} y \textit{coalesce}, operaciones \textit{ByKey}, excepto  \textit{countByKey} y operaciones de mezcla de RDDs como \textit{cogroup} y \textit{join}.\\
 
 Se trata de una operación muy costosa, pues debe leer todas las particiones para encontrar todos los valores de todas las claves, y luego unir los valores de las particiones para calcular el resultado final de cada valor, esto conlleva escritura y lectura en disco, serialización de datos y movimiento de entrada y salida por la red \cite{6RDD_Documentation}.\\
 
-La fase de shuffle se desarrolla en dos partes: map y reduce. En la parte de map, Spark genera archivos intermedios que son escritos en disco en la ruta local de cada nodo. Estos archivos son conservados hasta que los RDD a los que corresponden ya no se utilizan, de esta manera, en caso de fallo no es necesario que vuelvan a ser calculados. Cada tarea map escribe un archivo por cada tarea Reduce. El directorio de almacenamiento temporal en disco puede ser configurado en la propiedad spark.local.dir que se configura a nivel de application. Además, spark brinda la opción de comprimir los archivos de salida Map, especificados por el parámetro \textit{spark.shuffle.compress}.\\
+La fase de shuffle se desarrolla en dos partes: map y reduce. En la parte de map, Spark genera archivos intermedios que son escritos en disco en la ruta local de cada nodo. Estos archivos son conservados hasta que los RDD a los que corresponden ya no se utilizan, de esta manera, en caso de fallo no es necesario que vuelvan a ser calculados. Cada tarea map escribe un archivo por cada tarea Reduce. El directorio de almacenamiento temporal en disco puede ser configurado en la propiedad spark.local.dir que se configura a nivel de application. Además, Spark brinda la opción de comprimir los archivos de salida Map, especificados por el parámetro \textit{spark.shuffle.compress}.\\
 
 Un efecto de lado, provocado por esta persistencia en disco durante la fase de shuffle, es que la ejecución de un nuevo trabajo sobre los datos que ya se han pasado por la fase shuffle, no vuelve a ejecutar la parte map del shuffle. Debido a que los archivos shuffle ya se habían escrito anteriormente en disco, Spark sabe que puede usarlos para ejecutar únicamente la parte reduce del shuffle. Pese a esta optimización automática,  para un mejor rendimiento es preferible realizar su propio almacenamiento en caché con el método caché, que le permite controlar exactamente qué datos guardar y dónde.\\
 
