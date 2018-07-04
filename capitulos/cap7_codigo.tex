@@ -112,7 +112,7 @@ Como no podía ser de otra manera, empezaremos viendo cómo implementar un progr
 
 \end{lstlisting}
 
-El procedimiento es sencillo. Para empezar, cargamos el texto usando sparkContext. Al leer el texto, lo que obtenemos es un RDD compuesto por las líneas del documento, por lo que lo primero que debemos hacer es separar esas líneas en palabras. Esto lo conseguimos con la función split(“ “) al recorrer el RDD usando la función flatMap(). A continuación, simplemente tendremos que contar el número de palabras con la función count().\\
+El procedimiento es sencillo. Para empezar, cargamos el texto usando sparkContext. Al leer el texto, lo que obtenemos es un RDD compuesto por las líneas del documento, por lo que lo primero que debemos hacer es separar esas líneas en palabras. Esto lo conseguimos con la función \textit{split(“ “)} al recorrer el RDD usando la función \textit{flatMap()}. A continuación, simplemente tendremos que contar el número de palabras con la función \textit{count()}.\\
 
 Si lo que queremos es contar el número de apariciones de una palabra en concreto, utilizaremos la siguiente función:\\
 
@@ -133,7 +133,7 @@ Si lo que queremos es contar el número de apariciones de una palabra en concret
 
 Aquí, tras partir el RDD en palabras, no basta simplemente con encontrar coincidencias con la palabra buscada, puesto que en ese caso estaríamos perdiendo registros. Para evitar esto, haremos la comprobación pasando a minúsculas la palabra a buscar y las palabras del texto, además de descartar cualquier carácter especial que no sean letras, como comas, puntos o signos de exclamación, mediante el uso de una expresión regular.\\
      
-No podemos repetir la misma palabra en posiciones tan cercanas. Este primer contacto con Spark nos muestra lo intuitivo y directo que resulta frente a competidores como Hadoop MapReduce.\\
+No podemos repetir la misma palabra en posiciones tan cercanas. Este primer contacto con Spark nos muestra lo intuitivo y directo que resulta frente a competidores como Hadoop Map Reduce.\\
 
 \section{RDD de pares clave valor}
 
@@ -207,7 +207,7 @@ def getMaximunAvgByMonth(flightsDF: DataFrame):
 }
 \end{lstlisting}
 
-En este caso, en primer lugar, agrupamos por mes y aeropuerto y contamos cuántos vuelos hay para cada clave. Como este RDD lo usaremos dos veces lo cacheamos. Para hacer la media necesitamos saber cuántos vuelos se han producido en cada mes, este resultado lo almacenamos en la variable \textit{fMonthSuma}. La información que nos falta para poder calcular la media por mes es un RDD de clave mes y valor una tupla con cada aeropuerto y la cantidad de vuelos despegados desde él en cada mes; para obtener esta información simplemente tenemos que reordenar el rdd \textit{fMonthKeySum}. Continuamos uniendo los dos RDDs mediante la operación \textit{join()}. LLegados a este punto, para calcular la media únicamente tenemos que recorrer los valores del RDD dividiendo los resultados obtenidos anteriormente, la cantidad de vuelos al mes entre la cantidad de vuelos con salida en cada aeropuerto. Por último, para quedarnos con el aeropuerto con mayor media por mes, recorremos todas las claves de dos en dos con la función \textit{reduceByKey}, quedándonos con los registros con mayor media.\\
+En este caso, en primer lugar, agrupamos por mes y aeropuerto y contamos cuántos vuelos hay para cada clave. Como este RDD lo usaremos dos veces lo cacheamos. Para hacer la media necesitamos saber cuántos vuelos se han producido en cada mes, este resultado lo almacenamos en la variable \textit{fMonthSum}. La información que nos falta para poder calcular la media por mes es un RDD de clave mes y valor una tupla con cada aeropuerto y la cantidad de vuelos despegados desde él en cada mes; para obtener esta información simplemente tenemos que reordenar el rdd \textit{fMonthKeySum}. Continuamos uniendo los dos RDDs mediante la operación \textit{join()}. LLegados a este punto, para calcular la media únicamente tenemos que recorrer los valores del RDD dividiendo los resultados obtenidos anteriormente, la cantidad de vuelos al mes entre la cantidad de vuelos con salida en cada aeropuerto. Por último, para quedarnos con el aeropuerto con mayor media por mes, recorremos todas las claves de dos en dos con la función \textit{reduceByKey()}, quedándonos con los registros con mayor media.\\
 
 Con este ejemplo cerramos los ejercicios sobre el Core de Spark. Resultan ser muy representativos en la programación con RDDs. Esta manera de programar no es la más usual, pero sí sirve como una buena primera toma de contacto con Spark.\\
 
@@ -263,7 +263,7 @@ GraphFrames nos habilita la posibilidad de hacer consultas mediante patrones \ci
 
 Con la expresión (a)-[ab]->(b) en la función \textit{find()} obtenemos todas las conexiones entre dos nodos genéricos a y b. Con el resto de la función \textit{find()} estamos definiendo un triángulo de vértices a b c.  Por último, lo interesante sería contemplar únicamente aquellos casos en los que el triángulo se haya recorrido en orden cronológico; lo hacemos empleando la función \textit{where()}.\\
 
-GraphFrames nos proporciona multitud de algoritmos sobre grafos \cite{graphFramesGuide}. Veamos, por ejemplo, cómo calcular el famoso algoritmo que usa Google (http://infolab.stanford.edu/~backrub/google.html) para estimar la importancia de cada nodo del grafo, en función de los nodos que llegan a él y de la importancia de estos:\\
+GraphFrames nos proporciona multitud de algoritmos sobre grafos \cite{graphFramesGuide}. Veamos, por ejemplo, cómo calcular el famoso algoritmo que usa Google \cite{pagerank} para estimar la importancia de cada nodo del grafo, en función de los nodos que llegan a él y de la importancia de estos:\\
 
 \begin{lstlisting}[frame=single]
   def getPageRankSorted(graph: GraphFrame): Dataset[Row]={

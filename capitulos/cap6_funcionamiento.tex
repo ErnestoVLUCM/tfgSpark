@@ -23,7 +23,7 @@ Para ser más eficiente, Spark agrupa las operaciones que pueden ser aplicadas e
 
 En consecuencia, entre una etapa y el siguiente se necesita comunicación con el driver, por lo que se han de ejecutar en secuencia. Sin embargo, en casos donde no se requiera información de otra etapa, por ejemplo, aplicar operaciones a dos RDD sin ningún padre común, se pueden calcular en paralelo.\\
 
-\begin{figure}[H]
+\begin{figure}[t]
 	\includegraphics[scale=0.6]{img/etapas} 
 	\centering
 	\caption{Límite entre dos etapas}
@@ -33,13 +33,13 @@ En consecuencia, entre una etapa y el siguiente se necesita comunicación con el
 Podemos clasificar las etapas en dos categorías diferentes, según lo que marque su final:\\
 
 \begin{itemize}
-\item ShuffleMapStage, que escribe los archivos de salida de shuffle.
+\item ShuffleMapStage, que escribe los archivos de salida de shuffle (\ref{etapas}).
 \item ResultStage, para la etapa final que ejecuta una acción.
 \end{itemize}
 
 Las agrupaciones de etapas fruto de una acción se conocen como trabajo. Las etapas suelen compartirse en varios trabajos, si estos trabajos reutilizan los mismos RDD.\\
 
-\section{Trabajo}
+\section{Trabajos}
 Suponen el elemento más alto de la jerarquía de ejecución de Spark. Cada trabajo de Spark corresponde a una acción, y suponen el desencadenante para comenzar el cómputo sobre los RDD, debido al carácter perezoso de estos. \\
 
 \section{Aplicación}

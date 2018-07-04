@@ -38,19 +38,19 @@ Las transformaciones son las operaciones que tienen como resultado un RDD, supon
  
 Las transformaciones se dividen en dos categorías: transformaciones con dependencias \textit{narrow} y transformaciones con dependencias \textit{wide}. Para un buen desarrollo de aplicaciones en Spark, es de vital importancia entender las diferencias entre estas dos categorías, ya que una aplicación construida sin tenerlas en consideración supondrá un impacto muy negativo a nivel de eficiencia.\\
  
-Las transformaciones con dependencias \textit{narrow} son aquellas en las que los datos del RDD padre (el RDD sobre el que se aplica la transformación) no necesitan ser mezclados a nivel de partición para calcular el RDD hijo (el RDD resultante de aplicar la transformación al RDD padre), por lo que pueden ser ejecutadas en un subconjunto de datos sin necesidad de información acerca del resto de particiones. De esta manera, el RDD hijo tendrá un número finito de dependencias en las particiones del RDD padre. Transformaciones que se encuentran en esta categoría son \textit{map}, \textit{flatMap}, \textit{filter}.\\
+Las transformaciones con dependencias \textit{narrow} son aquellas en las que los datos del RDD padre (el RDD sobre el que se aplica la transformación) no necesitan ser mezclados a nivel de partición para calcular el RDD hijo (el RDD resultante de aplicar la transformación al RDD padre), por lo que pueden ser ejecutadas en un subconjunto de datos sin necesidad de información acerca del resto de particiones[\ref{narrow}]. De esta manera, el RDD hijo tendrá un número finito de dependencias en las particiones del RDD padre. Transformaciones que se encuentran en esta categoría son \textit{map}, \textit{flatMap}, \textit{filter}.\\
 \begin{figure}[H]
 	\includegraphics[scale=0.6]{img/narrow}
 	\caption{Transformaciones con dependencias narrow}
-	\label{foto}
+	\label{narrow}
 \end{figure}
  
-Las transformaciones con dependencias \textit{wide}, por el contrario, son aquellas que requieren un particionado particular de los datos, siendo necesaria la consulta de datos en las distintas particiones del RDD padre, implicando una mezcla en los datos de dichas particiones para computar el RDD hijo; esta operación de compartición de información a través de distintas particiones es conocida en Spark como shuffle, y la estudiaremos detenidamente más adelante. Ejemplos de estas transformaciones son \textit{sort}, \textit{reduceByKey}, \textit{gruoupByKey}.\\
+Las transformaciones con dependencias \textit{wide}, por el contrario, son aquellas que requieren un particionado particular de los datos, siendo necesaria la consulta de datos en las distintas particiones del RDD padre, implicando una mezcla en los datos de dichas particiones para computar el RDD hijo[\ref{wide}]; esta operación de compartición de información a través de distintas particiones es conocida en Spark como shuffle, y la estudiaremos detenidamente más adelante. Ejemplos de estas transformaciones son \textit{sort}, \textit{reduceByKey}, \textit{gruoupByKey}.\\
 \begin{figure}[H]
 	\includegraphics[scale=0.6]{img/wide}
 	\centering
 	\caption{Transformaciones con dependencias wide}
-	\label{foto}
+	\label{wide}
 \end{figure}
 
 \section{APIs estructuradas}
