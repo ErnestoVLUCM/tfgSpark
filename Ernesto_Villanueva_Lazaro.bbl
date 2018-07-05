@@ -76,6 +76,10 @@ Alvin Alexander.
 {User Guide - GraphFrames 0.5.0 Documentation}, May 2017.
 \newblock [Online; accessed 26. Jun. 2018].
 
+\bibitem{pagerank}
+{The Anatomy of a Search Engine}, Feb 2009.
+\newblock [Online; accessed 4. Jul. 2018].
+
 \bibitem{9Catalyst}
 {Catalyst: A Query Optimization Framework for Spark and Shark - Databricks},
   Jun 2018.
